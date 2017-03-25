@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='walter',
     description='My awesome project',
-    url='https://example.com/',
+    url='https://gitlab.com/excitedleigh/walter/',
     author='Leigh Brenecki',
     author_email='lbrenecki@cmv.com.au',
     license='MIT',
