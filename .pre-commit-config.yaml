@@ -26,3 +26,4 @@
     sha: e0bfe1f71f9b6c81c5b8b8ffece9d89b0142c4b8
     hooks:
     -   id: prospector
+        language_version: python3.5

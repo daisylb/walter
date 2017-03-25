@@ -19,6 +19,7 @@ setup(
         'dev': [
             'pytest',
             'prospector',
+            'pytest-asyncio',
         ]
     },
     entry_points={
