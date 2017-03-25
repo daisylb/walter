@@ -6,7 +6,7 @@ setup(
     url='https://example.com/',
     author='Leigh Brenecki',
     author_email='lbrenecki@cmv.com.au',
-    license='Proprietary',
+    license='MIT',
     setup_requires=["setuptools_scm>=1.11.1"],
     use_scm_version=True,
     packages=find_packages(),
