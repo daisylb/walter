@@ -71,7 +71,7 @@ def test_ordering():
     assert not NA > 0
     assert not 0 < NA
     assert not NA >= 0
-    assert not NA <= 0
+    assert not 0 <= NA
 
 
 def test_container():

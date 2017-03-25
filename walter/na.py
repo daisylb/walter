@@ -1,3 +1,6 @@
+from asyncio.futures import Future
+
+
 class NaType:
     """Type representing an unavailable value.
 
@@ -84,7 +87,7 @@ class NaType:
         return False
 
     def __ne__(self, other):
-        return False
+        return True
 
     def __gt__(self, other):
         return False
@@ -228,8 +231,10 @@ class NaType:
 
     # Async methods
 
-    async def __await__(self):
-        return self
+    def __await__(self):
+        f = Future()
+        f.set_result(self)
+        return f.__await__()
 
     def __aiter__(self):
         return self
