@@ -1,6 +1,39 @@
 import pytest
+from hypothesis import given, strategies
 
 from .na import NA
+
+real_numbers = strategies.one_of(
+    strategies.integers(),
+    strategies.floats(),
+    strategies.fractions(),
+    strategies.decimals(),
+)
+
+single_values = strategies.one_of(
+    real_numbers,
+    strategies.none(),
+    strategies.booleans(),
+    strategies.complex_numbers(),
+    strategies.characters(),
+    # technically text and binary are containers, but for Hypothesis
+    # purposes they're basically single values
+    strategies.text(),
+    strategies.binary(),
+)
+
+containers = strategies.one_of(
+    strategies.tuples(),
+    strategies.tuples(single_values),
+    strategies.tuples(single_values, single_values),
+    strategies.tuples(single_values, single_values, single_values),
+    strategies.lists(single_values),
+    strategies.sets(single_values),
+    strategies.frozensets(single_values),
+    strategies.dictionaries(single_values, single_values),
+)
+
+anything = strategies.one_of(single_values, containers)
 
 
 def test_repr():
@@ -56,37 +89,31 @@ def test_attrs():
     assert dir(NA) == []
 
 
-def test_ordering():
-    assert NA < 0
-    assert 0 > NA
-    assert NA < float('-inf')
-    assert float('-inf') > NA
-    assert NA <= 0
-    assert 0 >= NA
-    assert NA != 0
-    assert 0 != NA
+@given(anything)
+def test_ordering(x):
+    assert NA < x
+    assert x > NA
+    assert NA <= x
+    assert x >= NA
+    assert NA != x
+    assert x != NA
     assert NA != NA
-    assert not NA == 0
-    assert not 0 == NA
-    assert not NA > 0
-    assert not 0 < NA
-    assert not NA >= 0
-    assert not 0 <= NA
+    assert not NA == x
+    assert not x == NA
+    assert not NA > x
+    assert not x < NA
+    assert not NA >= x
+    assert not x <= NA
 
 
-def test_container():
-    assert NA[1] is NA
-    assert NA['foo'] is NA
-    NA[1] = 1
-    NA['foo'] = 'foo'
-    assert NA[1] is NA
-    assert NA['foo'] is NA
-    del NA[1]
-    del NA['foo']
-    assert NA[1] is NA
-    assert NA['foo'] is NA
-    assert 1 not in NA
-    assert 'foo' not in NA
+@given(anything, anything)
+def test_container(x, y):
+    assert NA[x] is NA
+    NA[x] = y
+    assert NA[x] is NA
+    del NA[x]
+    assert NA[x] is NA
+    assert y not in NA
 
 
 def test_iter():
@@ -94,46 +121,52 @@ def test_iter():
     assert len(list(reversed(NA))) == 0
 
 
-def test_numeric_opers():
-    assert NA + 1 is NA
-    assert 1 + NA is NA
-    assert NA - 1 is NA
-    assert 1 - NA is NA
-    assert NA * 1 is NA
-    assert 1 * NA is NA
-    assert NA @ 1 is NA
-    assert 1 @ NA is NA
-    assert NA / 1 is NA
-    assert 1 / NA is NA
-    assert NA // 1 is NA
-    assert 1 // NA is NA
-    assert NA % 1 is NA
-    assert 1 % NA is NA
-    assert NA ** 1 is NA
-    assert 1 ** NA is NA
-    assert NA << 1 is NA
-    assert 1 << NA is NA
-    assert NA >> 1 is NA
-    assert 1 >> NA is NA
-    assert NA & 1 is NA
-    assert 1 & NA is NA
-    assert NA ^ 1 is NA
-    assert 1 ^ NA is NA
-    assert NA | 1 is NA
-    assert 1 | NA is NA
+@given(anything)
+def test_numeric_opers(x):
+    assert NA + x is NA
+    assert x + NA is NA
+    assert NA - x is NA
+    assert x - NA is NA
+    assert NA * x is NA
+    assert x * NA is NA
+    assert NA @ x is NA
+    assert x @ NA is NA
+    assert NA / x is NA
+    assert x / NA is NA
+    assert NA // x is NA
+    assert x // NA is NA
+    assert NA % x is NA
+    assert x % NA is NA
+    assert NA ** x is NA
+    assert x ** NA is NA
+    assert NA << x is NA
+    assert x << NA is NA
+    assert NA >> x is NA
+    assert x >> NA is NA
+    assert NA & x is NA
+    assert x & NA is NA
+    assert NA ^ x is NA
+    assert x ^ NA is NA
+    assert NA | x is NA
+    assert x | NA is NA
     assert -NA is NA
     assert +NA is NA
     assert abs(NA) is NA
     assert ~NA is NA
 
 
-@pytest.mark.parametrize('left', (True, False))
-def test_divmod(left):
-    v = divmod(NA, 1) if left else divmod(1, NA)
-    assert isinstance(v, tuple)
-    assert len(v) == 2
-    assert v[0] is NA
-    assert v[1] is NA
+@given(real_numbers)
+def test_divmod(x):
+    left_v = divmod(NA, x)
+    right_v = divmod(x, NA)
+    assert isinstance(left_v, tuple)
+    assert isinstance(right_v, tuple)
+    assert len(left_v) == 2
+    assert len(right_v) == 2
+    assert left_v[0] is NA
+    assert left_v[1] is NA
+    assert right_v[0] is NA
+    assert right_v[1] is NA
 
 
 def test_context_manager():

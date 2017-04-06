@@ -20,6 +20,8 @@ setup(
             'pytest',
             'prospector',
             'pytest-asyncio',
+            'hypothesis',
+            'hypothesis-pytest',
         ]
     },
     entry_points={
