@@ -1,3 +1,5 @@
+from fractions import Fraction
+
 import pytest
 from hypothesis import given, strategies
 
@@ -134,9 +136,13 @@ def test_numeric_opers(x):
     assert NA / x is NA
     assert x / NA is NA
     assert NA // x is NA
-    assert x // NA is NA
+    if not (isinstance(x, complex) or isinstance(x, Fraction)):
+        assert x // NA is NA
     assert NA % x is NA
-    assert x % NA is NA
+    if not (isinstance(x, complex) or
+            isinstance(x, str) or
+            isinstance(x, bytes)):
+        assert x % NA is NA
     assert NA ** x is NA
     assert x ** NA is NA
     assert NA << x is NA
@@ -157,16 +163,9 @@ def test_numeric_opers(x):
 
 @given(real_numbers)
 def test_divmod(x):
-    left_v = divmod(NA, x)
-    right_v = divmod(x, NA)
-    assert isinstance(left_v, tuple)
-    assert isinstance(right_v, tuple)
-    assert len(left_v) == 2
-    assert len(right_v) == 2
-    assert left_v[0] is NA
-    assert left_v[1] is NA
-    assert right_v[0] is NA
-    assert right_v[1] is NA
+    assert divmod(NA, x) == (NA, NA)
+    if not isinstance(x, Fraction):
+        assert divmod(x, NA) == (NA, NA)
 
 
 def test_context_manager():
