@@ -1,4 +1,5 @@
 from os import listdir
+from os.path import join
 
 from . import sources
 
@@ -9,9 +10,9 @@ DEFAULT_SOURCES = (
 
 
 class SourceList:
-    def __init__(self, search_path, sources=None):
-        if sources is None:
-            sources = DEFAULT_SOURCES
+    def __init__(self, search_path, input_sources=None):
+        if input_sources is None:
+            input_sources = DEFAULT_SOURCES
 
         # FileSource subclasses are actually meta-sources that can potentially
         # spawn multiple sources (see FileSource's docstring), so we separate
@@ -34,7 +35,7 @@ class SourceList:
         # this, we only allow one contiguous run of file sources; if multiple
         # are supplied a ValueError is raised.
 
-        input_source_iter = iter(sources)
+        input_source_iter = iter(input_sources)
         ambient_sources_first = []
         file_sources = []
         ambient_sources_last = []
@@ -60,21 +61,21 @@ class SourceList:
         resolved_file_sources = []
         for path in search_path:
             listing = listdir(path)
-            for source in sources:
-                resolved_file_sources.extend(
-                    source.create(x) for x in listing
-                    if source.match_filename(x)
-                )
+            for source in file_sources:
+                for filename in listing:
+                    if source.match_filename(filename):
+                        with open(join(path, filename)) as f:
+                            resolved_file_sources.append(source.create(f))
 
         # Step three: combine with a whisk for two minutes or until fluffy.
         self.sources = ambient_sources_first
-        self.sources.extend(file_sources)
+        self.sources.extend(resolved_file_sources)
         self.sources.extend(ambient_sources_last)
 
-    def __getattr__(self, key):
+    def __getitem__(self, key):
         for source in self.sources:
             try:
-                return self.sources[key]
+                return source[key]
             except KeyError:
                 continue
         raise KeyError(key)

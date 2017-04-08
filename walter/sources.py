@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+from configparser import ConfigParser, NoOptionError
 from fnmatch import fnmatch
 from os import environ
 
@@ -115,10 +115,10 @@ class IniSource(Source):
         self.parser.read_file(file)
 
     def __getitem__(self, key):
-        value = self.parser.get(self.section, key)
-        if value is None:
+        try:
+            return self.parser.get(self.section, key)
+        except NoOptionError:
             raise KeyError(key)
-        return value
 
 
 class IniFileSource(FileSource):
