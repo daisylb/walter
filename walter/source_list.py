@@ -50,7 +50,7 @@ class SourceList:
             if not isinstance(source, sources.FileSource):
                 ambient_sources_last.append(source)
                 break
-            file_sources.append()
+            file_sources.append(source)
 
         for source in input_source_iter:
             if isinstance(source, sources.FileSource):
