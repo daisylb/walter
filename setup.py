@@ -13,6 +13,8 @@ setup(
     include_package_data=True,
 
     install_requires=[
+        'appdirs',
+        'attrs',
         'begins',
     ],
     extras_require={
