@@ -9,31 +9,33 @@ from .source_list import SourceList
 @attr.s
 class Error:
     key = attr.ib()
-    error_type = attr.ib(choices=('not_found', 'cast_fail'))
+    error_type = attr.ib(validator=lambda x: x in ('not_found', 'cast_fail'))
     exception = attr.ib()
 
 
 class Config:
-    def __init__(self, author, name, sources=None, search_path=None):
-        """Creates a config object.
+    """Creates a config object.
 
-        :param author: Name of the person or company that created this
-            program. Used on Windows to set the default search path.
-        :type author: str
-        :param name: Name of this program. Used on Windows to set the
-            default search path.
-        :type name: str
-        :param sources: An iterable of :class:`~walter.sources.Source`
-            objects to pull configuration from. Defaults to
-            :class:`~walter.sources.EnvironmentSource`,
-            :class:`~walter.sources.IniFileSource`.
-        :type sources: iterable
-        :type search_path: An iterable of directories to search for
-            configuration files. Defaults to the current directory,
-            followed by an appropriate user and site config directory
-            depending on the operating system.
-        :type search_path: iterable
-        """
+    :param author: Name of the person or company that created this
+        program. Used on Windows to set the default search path.
+    :type author: str
+    :param name: Name of this program. Used on Windows to set the
+        default search path.
+    :type name: str
+    :param sources: An iterable of :class:`~walter.sources.Source`
+        objects to pull configuration from. Defaults to the following:
+
+        - :class:`~walter.sources.EnvironmentSource`
+        - :class:`~walter.sources.IniFileSource`
+    :type sources: iterable
+    :param search_path: An iterable of directories to search for
+        configuration files. Defaults to the current directory,
+        followed by an appropriate user and site config directory
+        depending on the operating system.
+    :type search_path: iterable
+    """
+
+    def __init__(self, author, name, sources=None, search_path=None):
         if search_path is None:
             search_path = (
                 '.',

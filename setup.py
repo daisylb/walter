@@ -24,6 +24,10 @@ setup(
             'pytest-asyncio',
             'hypothesis',
             'hypothesis-pytest',
+        ],
+        'docs': [
+            'sphinx>=1.5,<1.6',
+            'sphinx-rtd-theme>=0.1.9,<0.2',
         ]
     },
     entry_points={

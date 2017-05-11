@@ -14,7 +14,7 @@
     sha: v1.0.1
     hooks:
     -   id: forbid-crlf
-        exclude: \.csv$
+        exclude: \.(csv|bat)$
     -   id: forbid-tabs
         exclude: Makefile|\.bat$
 -   repo: git://github.com/FalconSocial/pre-commit-python-sorter
@@ -27,3 +27,4 @@
     hooks:
     -   id: prospector
         language_version: python3.5
+        exclude: ^docs/

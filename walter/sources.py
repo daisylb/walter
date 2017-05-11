@@ -101,6 +101,13 @@ class FileSource:
 
 
 class EnvironmentSource(Source):
+    """Source that extracts values from environment variables.
+
+    :param prefix: Prefix to expect at the beginning of environment
+        variable names.
+    :type prefix: str
+    """
+
     def __init__(self, prefix=''):
         self.prefix = prefix
 
@@ -122,5 +129,14 @@ class IniSource(Source):
 
 
 class IniFileSource(FileSource):
+    """Source that extracts values from ``.ini`` files.
+
+    Files should be in the format expected by
+    :class:`configparser.ConfigParser`.
+
+    :param section: Section header to look for settings under. Defaults
+    to ``settings``.
+    :type section: str
+    """
     pattern = "settings.ini"
     source_class = IniSource
