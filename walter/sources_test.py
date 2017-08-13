@@ -32,4 +32,4 @@ def test_env_with_prefix(monkeypatch):
     assert s['FOO'] == 'bar'
     assert s['BAZ'] == 'qux'
     with pytest.raises(KeyError):
-        s['EGGS']
+        s['EGGS']  # noqa

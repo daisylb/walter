@@ -121,8 +121,8 @@ def test_container(x, y):
 
 
 def test_iter():
-    assert len(list(iter(NA))) == 0
-    assert len(list(reversed(NA))) == 0
+    assert len(list(iter(NA))) == 0  # noqa
+    assert len(list(reversed(NA))) == 0  # noqa
 
 
 @pytest.mark.skip("Weird error in Hypothesis about hashing NaN")
@@ -139,12 +139,10 @@ def test_numeric_opers(x):
     assert NA / x is NA
     assert x / NA is NA
     assert NA // x is NA
-    if not (isinstance(x, complex) or isinstance(x, Fraction)):
+    if not (isinstance(x, (complex, Fraction))):
         assert x // NA is NA
     assert NA % x is NA
-    if not (isinstance(x, complex) or
-            isinstance(x, str) or
-            isinstance(x, bytes)):
+    if not (isinstance(x, (complex, str, bytes))):
         assert x % NA is NA
     assert NA ** x is NA
     assert x ** NA is NA

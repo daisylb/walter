@@ -1,7 +1,7 @@
+import pytest
+
 from . import config
 from .na import NA
-
-import pytest
 
 
 def test_works_properly():

@@ -1,5 +1,4 @@
 import appdirs
-
 import attr
 
 from .na import NA
@@ -9,7 +8,7 @@ from .source_list import SourceList
 @attr.s
 class ConfigError(ValueError):
     key = attr.ib()
-    error_type = attr.ib() # one of 'not_found', 'cast_fail' TODO: validate
+    error_type = attr.ib()  # one of 'not_found', 'cast_fail' TODO: validate
     exception = attr.ib(default=None)
 
 

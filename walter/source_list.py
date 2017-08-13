@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import join, isdir
+from os.path import isdir, join
 
 from . import sources
 

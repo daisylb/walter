@@ -40,7 +40,7 @@ def test_source_list_normal(monkeypatch):
     assert source_list['FOO'] == 'bar'
     assert source_list['BAZ'] == 'qux'
     with pytest.raises(KeyError):
-        source_list['EGGS']
+        source_list['EGGS']  # noqa
 
 
 def test_source_list_ambient_override(monkeypatch):
@@ -89,6 +89,6 @@ def test_search_path_order_takes_precedence_over_file_source_order():
 
 def non_contiguous_file_sources_not_allowed():
     with pytest.raises(ValueError):
-        SourceList(input_sources=(sources.IniFileSource(),
-                                  sources.EnvironmentSource(),
-                                  sources.IniFileSource()))
+        SourceList(search_path=(), input_sources=(sources.IniFileSource(),
+                                                  sources.EnvironmentSource(),
+                                                  sources.IniFileSource()))
