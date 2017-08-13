@@ -7,10 +7,10 @@ from .source_list import SourceList
 
 
 @attr.s
-class Error:
+class ConfigError(ValueError):
     key = attr.ib()
-    error_type = attr.ib(validator=lambda x: x in ('not_found', 'cast_fail'))
-    exception = attr.ib()
+    error_type = attr.ib() # one of 'not_found', 'cast_fail' TODO: validate
+    exception = attr.ib(default=None)
 
 
 class Config:
@@ -43,10 +43,26 @@ class Config:
                 appdirs.site_config_dir(name, author),
             )
         self.search_path = search_path
-        self.source = SourceList(search_path=search_path, sources=sources)
+        self.source = SourceList(search_path=search_path,
+                                 input_sources=sources)
         self.values = []
         self.help_text = {}
         self.errors = []
+        self.collect_errors = False
+
+    def _report_error(self, error):
+        if self.collect_errors:
+            self.errors.append(error)
+        else:
+            raise error
+
+    def __enter__(self):
+        self.collect_errors = True
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        # TODO: handle properly
+        self.collect_errors = False
 
     def get(self, key, cast=None, help_text=None):
         """Get a configuration parameter.
@@ -67,13 +83,17 @@ class Config:
         try:
             raw_value = self.source[key]
         except KeyError:
-            self.errors.append(key=key, error_type='not_found')
+            self._report_error(ConfigError(key=key, error_type='not_found'))
             return NA
 
-        try:
-            value = cast(raw_value)
-        except Exception as e:
-            self.errors.append(key=key, error_type='cast_fail', exception=e)
-            return NA
+        if cast is not None:
+            try:
+                value = cast(raw_value)
+            except Exception as e:
+                self._report_error(ConfigError(key=key, error_type='cast_fail',
+                                               exception=e))
+                return NA
+        else:
+            value = raw_value
 
         return value

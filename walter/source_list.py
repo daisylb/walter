@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import join
+from os.path import join, isdir
 
 from . import sources
 
@@ -60,6 +60,8 @@ class SourceList:
         # ...And now we resolve the file sources.
         resolved_file_sources = []
         for path in search_path:
+            if not isdir(path):
+                continue
             listing = listdir(path)
             for source in file_sources:
                 for filename in listing:
