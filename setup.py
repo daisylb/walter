@@ -1,17 +1,20 @@
+from os.path import dirname, join
+
 from setuptools import find_packages, setup
 
 setup(
     name='walter',
-    description='My awesome project',
+    description='A better configuration library for Django and other '
+                'Python projects',
+    long_description=open(join(dirname(__file__), 'README.rst')).read(),
     url='https://gitlab.com/excitedleigh/walter/',
     author='Leigh Brenecki',
-    author_email='lbrenecki@cmv.com.au',
+    author_email='leigh@brenecki.id.au',
     license='MIT',
     setup_requires=["setuptools_scm>=1.11.1"],
     use_scm_version=True,
     packages=find_packages(),
     include_package_data=True,
-
     install_requires=[
         'appdirs',
         'attrs',
@@ -29,8 +32,5 @@ setup(
             'sphinx>=1.5,<1.6',
             'sphinx-rtd-theme>=0.1.9,<0.2',
         ]
-    },
-    entry_points={
-        'console_scripts': ['walter=walter.cli:main.start'],
     },
 )

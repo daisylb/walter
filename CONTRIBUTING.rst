@@ -1,6 +1,8 @@
 Contribution Guide
 ==================
 
+Walter's code is currently hosted `on GitLab at excitedleigh/walter <https://gitlab.com/excitedleigh/walter>`_. If you're not familiar with GitLab, it's very similar to GitHub; you can sign in with your GitHub account, and then fork, modify and file merge requests.
+
 Setting Up
 ----------
 
