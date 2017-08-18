@@ -21,13 +21,15 @@ def test_missing():
 
 
 def test_context_manager():
-    with config.Config('ACME Inc', 'Widget', sources=[{'FOO': 'bar'}]) as c:
-        assert c.get('BAR') is NA
+    with pytest.raises(config.ConfigErrorSet):
+        with config.Config('ACME', 'Widget', sources=[{'FOO': 'bar'}]) as c:
+            assert c.get('BAR') is NA
 
 
 def test_collect_keys():
-    with config.Config('ACME Inc', 'Widget', sources=[{'FOO': 'bar'}]) as c:
-        c.get('FOO')
-        c.get('BAR')
-        c.get('BAZ')
+    with pytest.raises(config.ConfigErrorSet):
+        with config.Config('ACME', 'Widget', sources=[{'FOO': 'bar'}]) as c:
+            c.get('FOO')
+            c.get('BAR')
+            c.get('BAZ')
     assert c.values == ['FOO', 'BAR', 'BAZ']

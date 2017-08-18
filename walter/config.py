@@ -1,3 +1,5 @@
+from itertools import chain
+
 import appdirs
 import attr
 
@@ -5,11 +7,37 @@ from .na import NA
 from .source_list import SourceList
 
 
-@attr.s
+@attr.s(frozen=True)
 class ConfigError(ValueError):
     key = attr.ib()
     error_type = attr.ib()  # one of 'not_found', 'cast_fail' TODO: validate
     exception = attr.ib(default=None)
+
+    def __str__(self):
+        if self.error_type == 'not_found':
+            return "{} not set".format(self.key)
+        return "{} set incorrectly, got {}: {}".format(
+            self.key,
+            self.exception.__class__.__name__,
+            str(self.exception),
+        )
+
+
+@attr.s(frozen=True)
+class ConfigErrors(ValueError):
+    errors = attr.ib()
+
+    def __str__(self):
+        not_found_count = sum(
+            1 for x in self.errors if x.error_type == 'not_found')
+        cast_fail_count = sum(
+            1 for x in self.errors if x.error_type == 'cast_fail')
+        summary_line = "{} configuration values not set, {} invalid".format(
+            not_found_count, cast_fail_count)
+        return '\n'.join(chain(
+            (summary_line, ''),
+            (str(x) for x in self.errors)
+        ))
 
 
 class Config:
@@ -62,6 +90,8 @@ class Config:
     def __exit__(self, exc_type, exc_value, traceback):
         # TODO: handle properly
         self.collect_errors = False
+        if exc_value is None and self.errors:
+            raise ConfigErrors(errors=self.errors)
 
     def get(self, key, cast=None, help_text=None):
         """Get a configuration parameter.
