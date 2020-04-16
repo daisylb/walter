@@ -13,6 +13,12 @@ def test_cast():
     c = config.Config('ACME Inc', 'Widget', sources=[{'FOO': '1'}])
     assert c.get('FOO', cast=int) == 1
 
+def test_default():
+    c = config.Config('ACME Inc', 'Widget', sources=[{}])
+    # In actual use we probably wouldn't see a cast to int with a float
+    # default; we're using this to 
+    assert c.get('FOO', cast=int, default=1.0) == 1.0
+
 
 def test_missing():
     c = config.Config('ACME Inc', 'Widget', sources=[{'FOO': 'bar'}])

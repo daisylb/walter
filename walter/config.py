@@ -40,6 +40,9 @@ class ConfigErrors(ValueError):
         ))
 
 
+NO_DEFAULT = object()
+
+
 class Config:
     """Creates a config object.
 
@@ -93,7 +96,7 @@ class Config:
         if exc_value is None and self.errors:
             raise ConfigErrors(errors=self.errors)
 
-    def get(self, key, cast=None, help_text=None):
+    def get(self, key, cast=None, default=NO_DEFAULT, help_text=None):
         """Get a configuration parameter.
 
         :param key: The name of the configuration parameter to get.
@@ -101,6 +104,9 @@ class Config:
         :param cast: A function to call on the returned parameter to
             convert it to the appropriate value.
         :type cast: function
+        :param default: A default value to use if this value is not
+            provided. (Note that the default value is not passed to
+            the cast function.)
         :param help_text: Help text to display to the user, explaining
             the usage of this parameter.
         :type help_text: str
@@ -112,6 +118,8 @@ class Config:
         try:
             raw_value = self.source[key]
         except KeyError:
+            if default is not NO_DEFAULT:
+                return default
             self._report_error(ConfigError(key=key, error_type='not_found'))
             return NA
 
