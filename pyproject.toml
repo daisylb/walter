@@ -7,7 +7,7 @@ authors = ["Leigh Brenecki <leigh@brenecki.id.au>"]
 readme = "README.rst"
 
 [tool.poetry.dependencies]
-python = ">3.5"
+python = ">3.6"
 appdirs = "*"
 attrs = "*"
 begins = "*"

@@ -3,3 +3,4 @@ build/*
 dist/*
 media/*
 docs/_build
+.nox

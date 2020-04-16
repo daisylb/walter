@@ -28,13 +28,13 @@ def test_missing():
 
 
 def test_context_manager():
-    with pytest.raises(config.ConfigErrorSet):
+    with pytest.raises(config.ConfigErrors):
         with config.Config("ACME", "Widget", sources=[{"FOO": "bar"}]) as c:
             assert c.get("BAR") is NA
 
 
 def test_collect_keys():
-    with pytest.raises(config.ConfigErrorSet):
+    with pytest.raises(config.ConfigErrors):
         with config.Config("ACME", "Widget", sources=[{"FOO": "bar"}]) as c:
             c.get("FOO")
             c.get("BAR")
