@@ -14,12 +14,10 @@ class ConfigError(ValueError):
     exception = attr.ib(default=None)
 
     def __str__(self):
-        if self.error_type == 'not_found':
-            return "{} not set".format(self.key)
+        if self.error_type == "not_found":
+            return f"{self.key} not set"
         return "{} set incorrectly, got {}: {}".format(
-            self.key,
-            self.exception.__class__.__name__,
-            str(self.exception),
+            self.key, self.exception.__class__.__name__, str(self.exception),
         )
 
 
@@ -28,16 +26,12 @@ class ConfigErrors(ValueError):
     errors = attr.ib()
 
     def __str__(self):
-        not_found_count = sum(
-            1 for x in self.errors if x.error_type == 'not_found')
-        cast_fail_count = sum(
-            1 for x in self.errors if x.error_type == 'cast_fail')
+        not_found_count = sum(1 for x in self.errors if x.error_type == "not_found")
+        cast_fail_count = sum(1 for x in self.errors if x.error_type == "cast_fail")
         summary_line = "{} configuration values not set, {} invalid".format(
-            not_found_count, cast_fail_count)
-        return '\n'.join(chain(
-            (summary_line, ''),
-            (str(x) for x in self.errors)
-        ))
+            not_found_count, cast_fail_count
+        )
+        return "\n".join(chain((summary_line, ""), (str(x) for x in self.errors)))
 
 
 NO_DEFAULT = object()
@@ -68,13 +62,12 @@ class Config:
     def __init__(self, author, name, sources=None, search_path=None):
         if search_path is None:
             search_path = (
-                '.',
+                ".",
                 appdirs.user_config_dir(name, author),
                 appdirs.site_config_dir(name, author),
             )
         self.search_path = search_path
-        self.source = SourceList(search_path=search_path,
-                                 input_sources=sources)
+        self.source = SourceList(search_path=search_path, input_sources=sources)
         self.values = []
         self.help_text = {}
         self.errors = []
@@ -120,15 +113,16 @@ class Config:
         except KeyError:
             if default is not NO_DEFAULT:
                 return default
-            self._report_error(ConfigError(key=key, error_type='not_found'))
+            self._report_error(ConfigError(key=key, error_type="not_found"))
             return NA
 
         if cast is not None:
             try:
                 value = cast(raw_value)
             except Exception as e:
-                self._report_error(ConfigError(key=key, error_type='cast_fail',
-                                               exception=e))
+                self._report_error(
+                    ConfigError(key=key, error_type="cast_fail", exception=e)
+                )
                 return NA
         else:
             value = raw_value

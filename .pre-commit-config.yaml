@@ -1,3 +1,4 @@
+repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     sha: 5bf6c09bfa1297d3692cadd621ef95f1284e33c0
     hooks:
@@ -5,11 +6,8 @@
     -   id: check-case-conflict
     -   id: check-merge-conflict
     -   id: debug-statements
-        language_version: python3.5
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
-    -   id: autopep8-wrapper
-        language_version: python3.5
 -   repo: https://github.com/Lucas-C/pre-commit-hooks
     sha: v1.0.1
     hooks:
@@ -17,17 +15,7 @@
         exclude: \.(csv|bat)$
     -   id: forbid-tabs
         exclude: Makefile|\.bat$
--   repo: git://github.com/FalconSocial/pre-commit-python-sorter
-    sha: b57843b0b874df1d16eb0bef00b868792cb245c2
+-   repo: https://github.com/excitedleigh/shed
+    rev: pre-commit
     hooks:
-    -   id: python-import-sorter
-        language_version: python3.5
--   repo: local
-    hooks:
-    -   id: prospector
-        name: Prospector
-        description: 'This hook runs Prospector: https://github.com/landscapeio/prospector'
-        entry: prospector
-        language: system
-        files: \.py$
-        exclude: docs\/
+    -   id: shed

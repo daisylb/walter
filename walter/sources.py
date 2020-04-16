@@ -20,7 +20,6 @@ class Source:
     If instead you are implementing a file-based source, see also
     :class:`~walter.sources.FileSource`.
     """
-    pass
 
 
 class FileSource:
@@ -88,7 +87,7 @@ class FileSource:
         :return: Whether the filename matches this source.
         :rtype: bool
         """
-        if hasattr(self.pattern, 'match'):
+        if hasattr(self.pattern, "match"):
             return bool(self.pattern.match(filename))
         return fnmatch(filename, self.pattern)
 
@@ -108,7 +107,7 @@ class EnvironmentSource(Source):
     :type prefix: str
     """
 
-    def __init__(self, prefix=''):
+    def __init__(self, prefix=""):
         self.prefix = prefix
 
     def __getitem__(self, key):
@@ -116,7 +115,7 @@ class EnvironmentSource(Source):
 
 
 class IniSource(Source):
-    def __init__(self, file, section='settings'):
+    def __init__(self, file, section="settings"):
         self.section = section
         self.parser = ConfigParser()
         self.parser.read_file(file)
@@ -138,5 +137,6 @@ class IniFileSource(FileSource):
     to ``settings``.
     :type section: str
     """
+
     pattern = "settings.ini"
     source_class = IniSource

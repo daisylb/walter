@@ -51,11 +51,11 @@ def test_bytes():
 
 
 def test_format():
-    assert "{}".format(NA) == "NA"
-    assert "{:x}".format(NA) == "NA"
-    assert "{:02f}".format(NA) == "NA"
-    assert "{: <}".format(NA) == "NA"
-    assert "{:totally-invalid-fspec}".format(NA) == "NA"
+    assert f"{NA}" == "NA"
+    assert f"{NA:x}" == "NA"
+    assert f"{NA:02f}" == "NA"
+    assert f"{NA: <}" == "NA"
+    assert f"{NA:totally-invalid-fspec}" == "NA"
 
 
 def test_bool():
@@ -78,8 +78,8 @@ def test_round():
 
 def test_call():
     assert NA() is NA
-    assert NA(1, 2, 'eggs', 'spam') is NA
-    assert NA(1, 2, foo='eggs', bar='spam') is NA
+    assert NA(1, 2, "eggs", "spam") is NA
+    assert NA(1, 2, foo="eggs", bar="spam") is NA
 
 
 def test_attrs():
@@ -178,7 +178,7 @@ def test_context_manager():
 
 def test_context_manager_exc():
     with NA:
-        raise ValueError('should not propagate')
+        raise ValueError("should not propagate")
 
 
 @pytest.mark.asyncio
@@ -205,4 +205,4 @@ async def test_async_context_manager():
 @pytest.mark.asyncio
 async def test_async_context_manager_exc():
     async with NA:
-        raise ValueError('should not propagate')
+        raise ValueError("should not propagate")

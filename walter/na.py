@@ -24,6 +24,7 @@ class NaType:
     context manager and iterator (behaving identically to the
     synchronous versions).
     """
+
     # Representation and Type Conversion
 
     def __repr__(self):
