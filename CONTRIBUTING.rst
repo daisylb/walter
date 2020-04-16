@@ -1,10 +1,14 @@
 Contribution Guide
 ==================
 
-Walter's code is currently hosted `on GitLab at excitedleigh/walter <https://gitlab.com/excitedleigh/walter>`_. If you're not familiar with GitLab, it's very similar to GitHub; you can sign in with your GitHub account, and then fork, modify and file merge requests.
+Walter's code is currently hosted `on GitHub at excitedleigh/walter <https://github.com/excitedleigh/walter>`_.
 
 Setting Up
 ----------
+
+.. TODO::
+
+    Update this for the changes to Poetry et al
 
 - To install Walter for development, run ``pip install -e .[dev,docs]``.
 - Tests are written using pytest; just run the command ``pytest`` to run them.
