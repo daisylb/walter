@@ -1,0 +1,33 @@
+name: Tests
+on: [push]
+jobs:
+  test:
+    name: Test suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v1
+      - name: Pip cache
+        uses: actions/cache@v1
+        with:
+            path: ~/.cache/pip
+            key: ${{ runner.os }}-pip-1
+      - name: Set up Nox
+        uses: excitedleigh/setup-nox@0.1.0
+      - name: Run tests
+        run: nox
+  pre-commit:
+    name: Pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+    - name: set PY
+      run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pre-commit
+        key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+    - uses: pre-commit/action@v1.0.0
