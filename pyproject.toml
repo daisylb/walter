@@ -20,6 +20,9 @@ pytest = "*"
 pytest-asyncio = "*"
 sphinx = "<1.6,>=1.5"
 sphinx-rtd-theme = "<0.2,>=0.1.9"
+nox = "^2019.11.9"
+dj-database-url = "^0.5.0"
+importlib-metadata = "^1.6.0"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-rtd-theme"]

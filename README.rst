@@ -5,7 +5,7 @@ Walter
 
     Walter is pre-release software. Expect the API to change without notice, and expect this documentation to have lots of sharp edges.
 
-Walter is a configuration library, inspired by `python-decouple <https://pypi.python.org/pypi/python-decouple>`_, and intended to replace direct access to ``os.environ`` in Django ``settings.py`` files (although it is by no means Django-specific). It currently supports Python 3.5+.
+Walter is a configuration library, inspired by `python-decouple <https://pypi.python.org/pypi/python-decouple>`_, and intended to replace direct access to ``os.environ`` in Django ``settings.py`` files (although it is by no means Django-specific). It currently supports Python 3.6+.
 
 It differs from other, similar libraries for two reasons:
 
@@ -15,20 +15,22 @@ It differs from other, similar libraries for two reasons:
 Installation
 ------------
 
-::
+.. code-block:: shell
 
     pip install walter
+    # or
+    poetry add walter
 
 Usage
 -----
+
+Here's an example of a Python file that uses Walter to define its configuration.
 
 ::
 
     from walter.config import Config
 
-    # Your configuration needs to be wrapped in a context manager,
-    # so Walter can collect all the errors and display them at the end.
-    with Config("SGC", "Dialer") as config:
+    with Config("Acme Inc.", "My Awesome App") as config:
 
         # Read a configuration value with config.get()
         SECRET_KEY = config.get('SECRET_KEY')
@@ -39,13 +41,40 @@ Usage
         # You can pass any function that takes a string to `cast`.
         # Here, we're using a third party function to parse a database URL
         # string into a Django-compatible dictionary.
+        import dj_database_url
         DATABASES = {
             'default': config.get('DATABASE_URL', cast=dj_database_url.parse),
         }
 
         # You can also make a parameter optional by giving it a default.
-        RAVEN_DSN = config.get('RAVEN_DSN', default=None)
+        SENTRY_DSN = config.get('SENTRY_DSN', default=None)
 
-        # Last but not least, help_text is displayed in your Sphinx docs.
-        SITE_NAME = config.get('SITE_NAME',
-                               help_text="Displayed to users in the admin")
+        # Last but not least, help_text will be displayed in your
+        # Sphinx docs, in a future release.
+        SITE_NAME = config.get(
+            'SITE_NAME',
+            help_text="Displayed to users in the admin",
+        )
+    
+    print(f"Here, you can use values like {SITE_NAME}!")
+
+If we run that code without setting anything, Walter throws an error at the end of the ``with`` block.
+
+.. code-block:: none
+
+    Traceback (most recent call last):
+    File "<stdin>", line 27, in <module>
+    File "/Users/leigh/Projects/walter/walter/config.py", line 90, in __exit__
+        raise ConfigErrors(errors=self.errors)
+    walter.config.ConfigErrors: 4 configuration values not set, 0 invalid
+
+    SECRET_KEY not set
+    DEBUG not set
+    DATABASE_URL not set
+    SITE_NAME not set
+
+Note that Walter lists out all of the errors in our configuration, not just the first one! If we set all of those settings as environment variables and run the code again, the code runs to completion:
+
+.. code-block:: none
+
+    Here, you can use values like MyAwesomeApp!

@@ -17,8 +17,8 @@ Built-In
 
 .. autoclass:: walter.sources.IniFileSource
 
-Creating Your Own
-:::::::::::::::::
+Creating your own sources
+:::::::::::::::::::::::::
 
 .. autoclass:: walter.sources.Source
     :members:

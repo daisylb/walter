@@ -1,12 +1,13 @@
 .. include:: ../README.rst
 
-Documentation Contents
+Documentation contents
 ----------------------
 
 .. toctree::
    :maxdepth: 2
 
    api
+   changelog
    contributing
 
 
