@@ -1,2 +1,0 @@
-# This is for the benefit of readthedocs.org
-.[docs]

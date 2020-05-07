@@ -16,3 +16,16 @@ def tests(session):
         env={"VIRTUAL_ENV": session.virtualenv.location},
     )
     session.run("pytest", *session.posargs)
+
+@nox.session
+def docs(session):
+    session.install("poetry")
+    session.run(
+        "poetry",
+        "install",
+        # this is necessary to prevent poetry from creating
+        # its own virtualenv
+        env={"VIRTUAL_ENV": session.virtualenv.location},
+    )
+    session.cd("docs")
+    session.run("make", "html", *session.posargs, external=True)
