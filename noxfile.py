@@ -17,6 +17,7 @@ def tests(session):
     )
     session.run("pytest", *session.posargs)
 
+
 @nox.session
 def docs(session):
     session.install("poetry")

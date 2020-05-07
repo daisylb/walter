@@ -55,7 +55,7 @@ Here's an example of a Python file that uses Walter to define its configuration.
             'SITE_NAME',
             help_text="Displayed to users in the admin",
         )
-    
+
     print(f"Here, you can use values like {SITE_NAME}!")
 
 If we run that code without setting anything, Walter throws an error at the end of the ``with`` block.
