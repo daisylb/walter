@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>walter.sources &mdash; Walter 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Walter 0.3 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Walter
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Upgrade guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contribution guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Walter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>walter.sources</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for walter.sources</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span><span class="p">,</span> <span class="n">NoOptionError</span>
+<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatch</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../api.html#walter.sources.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base class for configuration sources.</span>
+
+<span class="sd">    To implement a simple (non-file-based) configuration source,</span>
+<span class="sd">    subclass this class and override ``__getitem__``.</span>
+
+<span class="sd">    ``__getitem__`` should return a string, or raise ``KeyError`` if</span>
+<span class="sd">    a key isn&#39;t found in the configuration source.</span>
+
+<span class="sd">    If you are implementing an ambient configuration source (e.g. one</span>
+<span class="sd">    that reads from environment variables, command-line args, a single</span>
+<span class="sd">    file in a well-known location, or something else that doesn&#39;t</span>
+<span class="sd">    depend on Walter&#39;s search path), you can expose your ``Source``</span>
+<span class="sd">    subclass to users directly.</span>
+<span class="sd">    If instead you are implementing a file-based source, see also</span>
+<span class="sd">    :class:`~walter.sources.FileSource`.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="FileSource"><a class="viewcode-back" href="../../api.html#walter.sources.FileSource">[docs]</a><span class="k">class</span> <span class="nc">FileSource</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base class for file-based configuration sources.</span>
+
+<span class="sd">    Because Walter implements searching for configuration files</span>
+<span class="sd">    internally, and allows for a mix of different types of configuration</span>
+<span class="sd">    files, a file-based configuration source consists of two classes.</span>
+
+<span class="sd">    One is the actual source itself. This is a subclass of</span>
+<span class="sd">    :class:`~walter.sources.Source` — not this class — and behaves like</span>
+<span class="sd">    a normal source, except it takes a file-like object as its first</span>
+<span class="sd">    positional argument, and it is an implementation detail that is not</span>
+<span class="sd">    exposed to your users.</span>
+
+<span class="sd">    The other is the &quot;meta-source&quot;, which is a subclass of</span>
+<span class="sd">    ``FileSource``. It is responsible for two things: determining which</span>
+<span class="sd">    filenames match the source, and creating new source objects from</span>
+<span class="sd">    files. Users will create an instance of the meta-source and pass</span>
+<span class="sd">    that to Walter, which will use it to create source instances.</span>
+
+<span class="sd">    While it is possible to override :meth:`match_filename` and</span>
+<span class="sd">    :meth:`create` entirely, most meta-sources should be able to get by</span>
+<span class="sd">    with simply setting two properties and adding a docstring:</span>
+
+<span class="sd">    * ``source_class``, your actual source class.</span>
+<span class="sd">    * ``pattern``, a default file pattern to match on, which can be</span>
+<span class="sd">      either a shell glob or a compiled regular expression.</span>
+
+<span class="sd">    Unless you override ``__init__``, your meta-source will accept a</span>
+<span class="sd">    ``filename`` arg that allows users to override ``pattern``; any</span>
+<span class="sd">    other keyword arguments given to the meta-source will be passed</span>
+<span class="sd">    through to the source itself.</span>
+
+<span class="sd">    .. example::</span>
+
+<span class="sd">        A file-based source that uses JSON might look like this::</span>
+
+<span class="sd">            class JsonSource(Source):</span>
+<span class="sd">                def __init__(self, f, allow_comments=True):</span>
+<span class="sd">                    self.data = json.load(</span>
+<span class="sd">                        f, allow_comments=allow_comments)</span>
+
+<span class="sd">                def __getitem__(self, key):</span>
+<span class="sd">                    return self.data[key]</span>
+
+<span class="sd">            class JsonFileSource(FileSource):</span>
+<span class="sd">                \&quot;\&quot;\&quot;A file source for JSON blobs.</span>
+
+<span class="sd">                :param allow_comments: Whether to allow comments.</span>
+<span class="sd">                :type allow_comments: bool</span>
+<span class="sd">                \&quot;\&quot;\&quot;</span>
+<span class="sd">                source_class = JsonSource</span>
+<span class="sd">                pattern = &quot;config.json&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="FileSource.match_filename"><a class="viewcode-back" href="../../api.html#walter.sources.FileSource.match_filename">[docs]</a>    <span class="k">def</span> <span class="nf">match_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test a filename to see if it matches this source.</span>
+
+<span class="sd">        :return: Whether the filename matches this source.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;match&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileSource.create"><a class="viewcode-back" href="../../api.html#walter.sources.FileSource.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a new source with the given file object.</span>
+
+<span class="sd">        :return: A new source object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">(</span><span class="n">file_obj</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EnvironmentSource"><a class="viewcode-back" href="../../api.html#walter.sources.EnvironmentSource">[docs]</a><span class="k">class</span> <span class="nc">EnvironmentSource</span><span class="p">(</span><span class="n">Source</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Source that extracts values from environment variables.</span>
+
+<span class="sd">    :param prefix: Prefix to expect at the beginning of environment</span>
+<span class="sd">        variable names.</span>
+<span class="sd">    :type prefix: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">environ</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">key</span><span class="p">]</span></div>
+
+
+<span class="k">class</span> <span class="nc">IniSource</span><span class="p">(</span><span class="n">Source</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="s2">&quot;settings&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">section</span> <span class="o">=</span> <span class="n">section</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">section</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoOptionError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="IniFileSource"><a class="viewcode-back" href="../../api.html#walter.sources.IniFileSource">[docs]</a><span class="k">class</span> <span class="nc">IniFileSource</span><span class="p">(</span><span class="n">FileSource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Source that extracts values from ``.ini`` files.</span>
+
+<span class="sd">    Files should be in the format expected by</span>
+<span class="sd">    :class:`configparser.ConfigParser`.</span>
+
+<span class="sd">    :param section: Section header to look for settings under. Defaults</span>
+<span class="sd">    to ``settings``.</span>
+<span class="sd">    :type section: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;settings.ini&quot;</span>
+    <span class="n">source_class</span> <span class="o">=</span> <span class="n">IniSource</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017–2020, Leigh Brenecki.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

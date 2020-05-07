@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; Walter 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Walter 0.3 documentation" href="index.html"/>
+        <link rel="next" title="Upgrade guide" href="changelog.html"/>
+        <link rel="prev" title="Walter" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Walter
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sources">Sources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#built-in">Built-In</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-your-own-sources">Creating your own sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Upgrade guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Walter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="config">
+<h2>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="walter.config.Config">
+<em class="property">class </em><code class="descclassname">walter.config.</code><code class="descname">Config</code><span class="sig-paren">(</span><em>author</em>, <em>name</em>, <em>sources=None</em>, <em>search_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a config object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>author</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) &#8211; Name of the person or company that created this
+program. Used on Windows to set the default search path.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) &#8211; Name of this program. Used on Windows to set the
+default search path.</li>
+<li><strong>sources</strong> (<em>iterable</em>) &#8211; <p>An iterable of <a class="reference internal" href="#walter.sources.Source" title="walter.sources.Source"><code class="xref py py-class docutils literal"><span class="pre">Source</span></code></a>
+objects to pull configuration from. Defaults to the following:</p>
+<ul>
+<li><a class="reference internal" href="#walter.sources.EnvironmentSource" title="walter.sources.EnvironmentSource"><code class="xref py py-class docutils literal"><span class="pre">EnvironmentSource</span></code></a></li>
+<li><a class="reference internal" href="#walter.sources.IniFileSource" title="walter.sources.IniFileSource"><code class="xref py py-class docutils literal"><span class="pre">IniFileSource</span></code></a></li>
+</ul>
+</li>
+<li><strong>search_path</strong> (<em>iterable</em>) &#8211; An iterable of directories to search for
+configuration files. Defaults to the current directory,
+followed by an appropriate user and site config directory
+depending on the operating system.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="walter.config.Config.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>key</em>, <em>cast=None</em>, <em>default=&lt;object object&gt;</em>, <em>help_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/config.html#Config.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.config.Config.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a configuration parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) &#8211; The name of the configuration parameter to get.</li>
+<li><strong>cast</strong> (<em>function</em>) &#8211; A function to call on the returned parameter to
+convert it to the appropriate value.</li>
+<li><strong>default</strong> &#8211; A default value to use if this value is not
+provided. (Note that the default value is not passed to
+the cast function.)</li>
+<li><strong>help_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) &#8211; Help text to display to the user, explaining
+the usage of this parameter.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="built-in">
+<h3>Built-In<a class="headerlink" href="#built-in" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="walter.sources.EnvironmentSource">
+<em class="property">class </em><code class="descclassname">walter.sources.</code><code class="descname">EnvironmentSource</code><span class="sig-paren">(</span><em>prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/sources.html#EnvironmentSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.EnvironmentSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source that extracts values from environment variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) &#8211; Prefix to expect at the beginning of environment
+variable names.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="walter.sources.IniFileSource">
+<em class="property">class </em><code class="descclassname">walter.sources.</code><code class="descname">IniFileSource</code><span class="sig-paren">(</span><em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/sources.html#IniFileSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.IniFileSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source that extracts values from <code class="docutils literal"><span class="pre">.ini</span></code> files.</p>
+<p>Files should be in the format expected by
+<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">configparser.ConfigParser</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>section</strong> &#8211; Section header to look for settings under. Defaults</td>
+</tr>
+</tbody>
+</table>
+<p>to <code class="docutils literal"><span class="pre">settings</span></code>.
+:type section: str</p>
+</dd></dl>
+
+</div>
+<div class="section" id="creating-your-own-sources">
+<h3>Creating your own sources<a class="headerlink" href="#creating-your-own-sources" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="walter.sources.Source">
+<em class="property">class </em><code class="descclassname">walter.sources.</code><code class="descname">Source</code><a class="reference internal" href="_modules/walter/sources.html#Source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.Source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for configuration sources.</p>
+<p>To implement a simple (non-file-based) configuration source,
+subclass this class and override <code class="docutils literal"><span class="pre">__getitem__</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">__getitem__</span></code> should return a string, or raise <code class="docutils literal"><span class="pre">KeyError</span></code> if
+a key isn&#8217;t found in the configuration source.</p>
+<p>If you are implementing an ambient configuration source (e.g. one
+that reads from environment variables, command-line args, a single
+file in a well-known location, or something else that doesn&#8217;t
+depend on Walter&#8217;s search path), you can expose your <code class="docutils literal"><span class="pre">Source</span></code>
+subclass to users directly.
+If instead you are implementing a file-based source, see also
+<a class="reference internal" href="#walter.sources.FileSource" title="walter.sources.FileSource"><code class="xref py py-class docutils literal"><span class="pre">FileSource</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="walter.sources.FileSource">
+<em class="property">class </em><code class="descclassname">walter.sources.</code><code class="descname">FileSource</code><span class="sig-paren">(</span><em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/sources.html#FileSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.FileSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for file-based configuration sources.</p>
+<p>Because Walter implements searching for configuration files
+internally, and allows for a mix of different types of configuration
+files, a file-based configuration source consists of two classes.</p>
+<p>One is the actual source itself. This is a subclass of
+<a class="reference internal" href="#walter.sources.Source" title="walter.sources.Source"><code class="xref py py-class docutils literal"><span class="pre">Source</span></code></a> — not this class — and behaves like
+a normal source, except it takes a file-like object as its first
+positional argument, and it is an implementation detail that is not
+exposed to your users.</p>
+<p>The other is the &#8220;meta-source&#8221;, which is a subclass of
+<code class="docutils literal"><span class="pre">FileSource</span></code>. It is responsible for two things: determining which
+filenames match the source, and creating new source objects from
+files. Users will create an instance of the meta-source and pass
+that to Walter, which will use it to create source instances.</p>
+<p>While it is possible to override <code class="xref py py-meth docutils literal"><span class="pre">match_filename()</span></code> and
+<code class="xref py py-meth docutils literal"><span class="pre">create()</span></code> entirely, most meta-sources should be able to get by
+with simply setting two properties and adding a docstring:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">source_class</span></code>, your actual source class.</li>
+<li><code class="docutils literal"><span class="pre">pattern</span></code>, a default file pattern to match on, which can be
+either a shell glob or a compiled regular expression.</li>
+</ul>
+<p>Unless you override <code class="docutils literal"><span class="pre">__init__</span></code>, your meta-source will accept a
+<code class="docutils literal"><span class="pre">filename</span></code> arg that allows users to override <code class="docutils literal"><span class="pre">pattern</span></code>; any
+other keyword arguments given to the meta-source will be passed
+through to the source itself.</p>
+<dl class="method">
+<dt id="walter.sources.FileSource.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>file_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/sources.html#FileSource.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.FileSource.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new source with the given file object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A new source object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="walter.sources.FileSource.match_filename">
+<code class="descname">match_filename</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/walter/sources.html#FileSource.match_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#walter.sources.FileSource.match_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test a filename to see if it matches this source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Whether the filename matches this source.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Upgrade guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Walter" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017–2020, Leigh Brenecki.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
