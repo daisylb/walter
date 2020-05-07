@@ -2,9 +2,12 @@
 name = "walter"
 version = "0.3"
 description = "A better configuration library for Django and other Python projects"
-license = "MIT"
+license = "MPL-2.0"
 authors = ["Leigh Brenecki <leigh@brenecki.id.au>"]
 readme = "README.rst"
+homepage = "https://walter.leigh.party"
+repository = "https://github.com/excitedleigh/walter"
+documentation = "https://walter.leigh.party"
 
 [tool.poetry.dependencies]
 python = ">3.6"
