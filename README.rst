@@ -53,7 +53,7 @@ Here's an example of a Python file that uses Walter to define its configuration.
 
 If we run that code without setting anything, Walter throws an error at the end of the ``with`` block.
 
-.. code-block:: none
+.. code-block::
 
     Traceback (most recent call last):
     File "<stdin>", line 27, in <module>
@@ -68,6 +68,6 @@ If we run that code without setting anything, Walter throws an error at the end 
 
 Note that Walter lists out all of the errors in our configuration, not just the first one! If we set all of those settings as environment variables and run the code again, the code runs to completion:
 
-.. code-block:: none
+.. code-block::
 
     Here, you can use values like MyAwesomeApp!

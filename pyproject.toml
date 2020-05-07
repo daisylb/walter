@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "walter"
-version = "0.3"
+version = "1.0"
 description = "A better configuration library for Django and other Python projects"
 license = "MPL-2.0"
 authors = ["Leigh Brenecki <leigh@brenecki.id.au>"]
