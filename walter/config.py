@@ -43,7 +43,7 @@ class Config:
     :param author: Name of the person or company that created this
         program. Used on Windows to set the default search path.
     :type author: str
-    :param name: Name of this program. Used on Windows to set the
+    :param name: Name of this program. Used to set the
         default search path.
     :type name: str
     :param sources: An iterable of :class:`~walter.sources.Source`

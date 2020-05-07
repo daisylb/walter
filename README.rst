@@ -1,16 +1,9 @@
 Walter
 ======
 
-.. warning::
-
-    Walter is pre-release software. Expect the API to change without notice, and expect this documentation to have lots of sharp edges.
-
 Walter is a configuration library, inspired by `python-decouple <https://pypi.python.org/pypi/python-decouple>`_, and intended to replace direct access to ``os.environ`` in Django ``settings.py`` files (although it is by no means Django-specific). It currently supports Python 3.6+.
 
-It differs from other, similar libraries for two reasons:
-
-- It will let you specify your configuration parameters in one place and have auto-generated Sphinx documentation, just like with Python code. (Work on this hasn't been started yet.)
-- When your users try to start up your app with invalid configuration, the error message they get shows a list of **all of the errors** with every configuration parameter, not just the first one.
+It differs from other, similar libraries for one reason: when your users try to start up your app with invalid configuration, the error message they get shows a list of **all of the errors** with every configuration parameter, not just the first one.
 
 Installation
 ------------
