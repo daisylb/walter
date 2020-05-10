@@ -30,3 +30,16 @@ def docs(session):
     )
     session.cd("docs")
     session.run("make", "html", *session.posargs, external=True)
+
+
+@nox.session
+def release_test(session):
+    session.install("poetry", "twine")
+    session.run(
+        "poetry",
+        "build",
+        # this is necessary to prevent poetry from creating
+        # its own virtualenv
+        env={"VIRTUAL_ENV": session.virtualenv.location},
+    )
+    session.run("twine", "check", "dist/*")
