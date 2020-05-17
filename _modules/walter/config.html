@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>walter.config &mdash; Walter 1.0 documentation</title>
+  <title>walter.config &mdash; Walter 1.1 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Walter 1.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Walter 1.1 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -84,6 +84,7 @@
             
             
                 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide.html">Guide to using Walter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Upgrade guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contribution guide</a></li>
@@ -171,6 +172,17 @@
 <span class="n">NO_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 
 
+<span class="k">def</span> <span class="nf">_special_case_bool_cast</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">value_l</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">value_l</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">value_l</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not one of y, yes, t, true, n, no, f, false&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value_l</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
 <div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../api.html#walter.config.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Creates a config object.</span>
 
@@ -223,7 +235,11 @@
         <span class="k">if</span> <span class="n">exc_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ConfigErrors</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Config.get"><a class="viewcode-back" href="../../api.html#walter.config.Config.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">NO_DEFAULT</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Config.get"><a class="viewcode-back" href="../../api.html#walter.config.Config.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compatibility alias of :meth:`__call__`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Config.__call__"><a class="viewcode-back" href="../../api.html#walter.config.Config.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">NO_DEFAULT</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a configuration parameter.</span>
 
 <span class="sd">        :param key: The name of the configuration parameter to get.</span>
@@ -237,6 +253,15 @@
 <span class="sd">        :param help_text: Help text to display to the user, explaining</span>
 <span class="sd">            the usage of this parameter.</span>
 <span class="sd">        :type help_text: str</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            As a special case, when the ``bool`` builtin is passed to ``cast``,</span>
+<span class="sd">            the value returned will be ``True`` if the input is a</span>
+<span class="sd">            case-insensitive match for ``y``, ``yes``, ``t``, or ``true``,</span>
+<span class="sd">            ``False`` for a case-insensitive match for ``n``, ``no``, ``f``,</span>
+<span class="sd">            or ``false``, and an error otherwise. In every other case, the</span>
+<span class="sd">            function (or constructor) passed in is called itself.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">help_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -252,7 +277,10 @@
 
         <span class="k">if</span> <span class="n">cast</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cast</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">_special_case_bool_cast</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">raw_value</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_report_error</span><span class="p">(</span>
                     <span class="n">ConfigError</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">error_type</span><span class="o">=</span><span class="s2">&quot;cast_fail&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
@@ -295,7 +323,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0',
+            VERSION:'1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

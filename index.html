@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Walter &mdash; Walter 1.0 documentation</title>
+  <title>Walter &mdash; Walter 1.1 documentation</title>
   
 
   
@@ -33,8 +33,8 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Walter 1.0 documentation" href="#"/>
-        <link rel="next" title="API" href="api.html"/> 
+    <link rel="top" title="Walter 1.1 documentation" href="#"/>
+        <link rel="next" title="Guide to using Walter" href="guide.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -84,6 +84,7 @@
             
             
                 <ul>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide to using Walter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Upgrade guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guide</a></li>
@@ -150,43 +151,58 @@ poetry add walter
 
 <span class="k">with</span> <span class="n">Config</span><span class="p">(</span><span class="s2">&quot;Acme Inc.&quot;</span><span class="p">,</span> <span class="s2">&quot;My Awesome App&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
 
-    <span class="c1"># Read a configuration value with config.get()</span>
-    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="p">)</span>
+    <span class="c1"># Read a configuration value with config()</span>
+    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="p">)</span>
 
     <span class="c1"># Convert the returned value to something other than a string with cast.</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 
     <span class="c1"># You can pass any function that takes a string to `cast`.</span>
     <span class="c1"># Here, we&#39;re using a third party function to parse a database URL</span>
     <span class="c1"># string into a Django-compatible dictionary.</span>
     <span class="kn">import</span> <span class="nn">dj_database_url</span>
     <span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">dj_database_url</span><span class="o">.</span><span class="n">parse</span><span class="p">),</span>
+        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="n">dj_database_url</span><span class="o">.</span><span class="n">parse</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="c1"># You can also make a parameter optional by giving it a default.</span>
-    <span class="n">SENTRY_DSN</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SENTRY_DSN&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-    <span class="c1"># Last but not least, help_text will be displayed in your</span>
-    <span class="c1"># Sphinx docs, in a future release.</span>
-    <span class="n">SITE_NAME</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s1">&#39;SITE_NAME&#39;</span><span class="p">,</span>
-        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Displayed to users in the admin&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">SENTRY_DSN</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;SENTRY_DSN&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Here, you can use values like </span><span class="si">{</span><span class="n">SITE_NAME</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If we run that code without setting anything, Walter throws an error at the end of the <code class="docutils literal"><span class="pre">with</span></code> block.</p>
+<div class="highlight-pytb"><div class="highlight"><pre><span></span><span class="gt">Traceback (most recent call last):</span>
+<span class="gr">File &quot;&lt;stdin&gt;&quot;, line 27, in &lt;module&gt;</span>
+<span class="gr">File &quot;/Users/leigh/Projects/walter/walter/config.py&quot;, line 90, in __exit__</span>
+<span class="gr">    raise ConfigErrors(errors=self.errors)</span>
+<span class="gr">walter.config.ConfigErrors</span>: <span class="n">4 configuration values not set, 0 invalid</span>
+
+<span class="x">SECRET_KEY not set</span>
+<span class="x">DEBUG not set</span>
+<span class="x">DATABASE_URL not set</span>
+<span class="x">SITE_NAME not set</span>
+</pre></div>
+</div>
 <p>Note that Walter lists out all of the errors in our configuration, not just the first one! If we set all of those settings as environment variables and run the code again, the code runs to completion:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>Here, you can use values like MyAwesomeApp!
+</pre></div>
+</div>
 </div>
 <div class="section" id="documentation-contents">
 <h2>Documentation contents<a class="headerlink" href="#documentation-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="guide.html">Guide to using Walter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide.html#setting-up-your-configuration-file">Setting up your configuration file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide.html#loading-your-configuration">Loading your configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide.html#setting-your-configuration">Setting your configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#config">Config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#sources">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-na-object">The <code class="docutils literal"><span class="pre">NA</span></code> object</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Upgrade guide</a><ul>
@@ -217,7 +233,7 @@ poetry add walter
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="guide.html" class="btn btn-neutral float-right" title="Guide to using Walter" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -249,7 +265,7 @@ poetry add walter
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0',
+            VERSION:'1.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
