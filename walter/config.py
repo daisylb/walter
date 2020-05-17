@@ -37,6 +37,17 @@ class ConfigErrors(ValueError):
 NO_DEFAULT = object()
 
 
+def _special_case_bool_cast(value: str):
+    value_l = value.lower()
+    if value_l in ("y", "yes", "t", "true"):
+        return True
+    if value_l in ("n", "no", "f", "false"):
+        return False
+    raise ValueError(
+        "{} is not one of y, yes, t, true, n, no, f, false".format(value_l)
+    )
+
+
 class Config:
     """Creates a config object.
 
@@ -103,6 +114,15 @@ class Config:
         :param help_text: Help text to display to the user, explaining
             the usage of this parameter.
         :type help_text: str
+
+        .. note::
+
+            As a special case, when the ``bool`` builtin is passed to ``cast``,
+            the value returned will be ``True`` if the input is a
+            case-insensitive match for ``y``, ``yes``, ``t``, or ``true``,
+            ``False`` for a case-insensitive match for ``n``, ``no``, ``f``,
+            or ``false``, and an error otherwise. In every other case, the
+            function (or constructor) passed in is called itself.
         """
         self.values.append(key)
         if help_text is not None:
@@ -118,7 +138,10 @@ class Config:
 
         if cast is not None:
             try:
-                value = cast(raw_value)
+                if cast is bool:
+                    value = _special_case_bool_cast(raw_value)
+                else:
+                    value = cast(raw_value)
             except Exception as e:
                 self._report_error(
                     ConfigError(key=key, error_type="cast_fail", exception=e)

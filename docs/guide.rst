@@ -48,6 +48,10 @@ You can use the ``cast`` argument to pass a converter function, in cases where y
         }
         ...
 
+.. note::
+
+    The ``bool`` built-in is special-cased by Walter; instead of calling it, which will give you ``bool``'s default behaviour of returning ``False`` for an empty string and ``True`` for anything else, Walter does a case-insensitive match on ``t``, ``true``, ``y``, ``yes``, ``f``, ``false``, ``n``, or ``no`` and raises an error if the value doesn't match one of those.
+
 If you want to make a parameter optional, supply the ``default`` argument. (If you supply both ``cast`` and ``default``, the default value is *not* passed to ``cast``.)
 
 .. code-block:: python

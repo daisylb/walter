@@ -14,6 +14,17 @@ def test_cast():
     assert c.get("FOO", cast=int) == 1
 
 
+def test_cast_bool():
+    c = config.Config("ACME Inc", "Widget", sources=[{"FOO": "False"}])
+    assert c.get("FOO", cast=bool) == False
+
+
+def test_cast_bool_error():
+    c = config.Config("ACME Inc", "Widget", sources=[{"FOO": "hello"}])
+    with pytest.raises(config.ConfigError):
+        c.get("FOO", cast=bool)
+
+
 def test_default():
     c = config.Config("ACME Inc", "Widget", sources=[{}])
     # In actual use we probably wouldn't see a cast to int with a float

@@ -29,6 +29,14 @@ Creating your own sources
 The ``NA`` object
 -----
 
+.. note::
+
+    I'm sorry. It was the only way.
+
+.. warning::
+
+    That's a lie. I'm actually quite proud of this.
+
 .. data:: walter.na.NA
 
     A singleton object representing an unavailable value, of type :class:`~walter.na.NaType`.
