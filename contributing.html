@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contribution guide &mdash; Walter 1.1 documentation</title>
+  <title>Contribution guide &mdash; Walter 1.2 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Walter 1.1 documentation" href="index.html"/>
+    <link rel="top" title="Walter 1.2 documentation" href="index.html"/>
         <link rel="prev" title="Upgrade guide" href="changelog.html"/> 
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.1
+                1.2
               </div>
             
           
@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Upgrade guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up">Setting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publishing-a-release">Publishing a release</a></li>
 </ul>
 </li>
 </ul>
@@ -154,6 +155,20 @@
 </li>
 </ul>
 </div>
+<div class="section" id="publishing-a-release">
+<h2>Publishing a release<a class="headerlink" href="#publishing-a-release" title="Permalink to this headline">¶</a></h2>
+<p>The process for releasing looks something like this:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>poetry version minor
+nox -s release_test
+poetry publish
+git add .
+git commit -m <span class="s2">&quot;Release 1.1&quot;</span>
+git tag v1.1
+git push origin master v1.1
+</pre></div>
+</div>
+<p>Then <a class="reference external" href="https://github.com/excitedleigh/walter/releases/new">draft a new release</a> to trigger the documentation build.</p>
+</div>
 </div>
 
 
@@ -195,7 +210,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.1',
+            VERSION:'1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

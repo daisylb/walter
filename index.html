@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Walter &mdash; Walter 1.1 documentation</title>
+  <title>Walter &mdash; Walter 1.2 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Walter 1.1 documentation" href="#"/>
+    <link rel="top" title="Walter 1.2 documentation" href="#"/>
         <link rel="next" title="Guide to using Walter" href="guide.html"/> 
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.1
+                1.2
               </div>
             
           
@@ -149,7 +149,7 @@ poetry add walter
 <p>Here&#8217;s an example of a Python file that uses Walter to define its configuration.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">walter.config</span> <span class="kn">import</span> <span class="n">Config</span>
 
-<span class="k">with</span> <span class="n">Config</span><span class="p">(</span><span class="s2">&quot;Acme Inc.&quot;</span><span class="p">,</span> <span class="s2">&quot;My Awesome App&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Config</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s2">&quot;Acme Inc.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My Awesome App&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
 
     <span class="c1"># Read a configuration value with config()</span>
     <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="p">)</span>
@@ -211,6 +211,7 @@ poetry add walter
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#setting-up">Setting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#publishing-a-release">Publishing a release</a></li>
 </ul>
 </li>
 </ul>
@@ -265,7 +266,7 @@ poetry add walter
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.1',
+            VERSION:'1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
