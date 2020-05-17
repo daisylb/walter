@@ -42,13 +42,6 @@ Here's an example of a Python file that uses Walter to define its configuration.
         # You can also make a parameter optional by giving it a default.
         SENTRY_DSN = config.get('SENTRY_DSN', default=None)
 
-        # Last but not least, help_text will be displayed in your
-        # Sphinx docs, in a future release.
-        SITE_NAME = config.get(
-            'SITE_NAME',
-            help_text="Displayed to users in the admin",
-        )
-
     print(f"Here, you can use values like {SITE_NAME}!")
 
 If we run that code without setting anything, Walter throws an error at the end of the ``with`` block.
