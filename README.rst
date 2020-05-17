@@ -23,7 +23,7 @@ Here's an example of a Python file that uses Walter to define its configuration.
 
     from walter.config import Config
 
-    with Config("Acme Inc.", "My Awesome App") as config:
+    with Config(author="Acme Inc.", name="My Awesome App") as config:
 
         # Read a configuration value with config()
         SECRET_KEY = config('SECRET_KEY')
