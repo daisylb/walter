@@ -100,7 +100,7 @@ class Config:
         if exc_value is None and self.errors:
             raise ConfigErrors(errors=self.errors)
 
-    def get(*args, **kwargs):
+    def get(self, *args, **kwargs):
         """Compatibility alias of :meth:`__call__`."""
         return self(*args, **kwargs)
 

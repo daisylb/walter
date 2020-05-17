@@ -9,6 +9,11 @@ def test_works_properly():
     assert c("FOO") == "bar"
 
 
+def test_get_method():
+    c = config.Config("ACME Inc", "Widget", sources=[{"FOO": "bar"}])
+    assert c.get("FOO") == "bar"
+
+
 def test_cast():
     c = config.Config("ACME Inc", "Widget", sources=[{"FOO": "1"}])
     assert c("FOO", cast=int) == 1
