@@ -25,22 +25,22 @@ Here's an example of a Python file that uses Walter to define its configuration.
 
     with Config("Acme Inc.", "My Awesome App") as config:
 
-        # Read a configuration value with config.get()
-        SECRET_KEY = config.get('SECRET_KEY')
+        # Read a configuration value with config()
+        SECRET_KEY = config('SECRET_KEY')
 
         # Convert the returned value to something other than a string with cast.
-        DEBUG = config.get('DEBUG', cast=bool)
+        DEBUG = config('DEBUG', cast=bool)
 
         # You can pass any function that takes a string to `cast`.
         # Here, we're using a third party function to parse a database URL
         # string into a Django-compatible dictionary.
         import dj_database_url
         DATABASES = {
-            'default': config.get('DATABASE_URL', cast=dj_database_url.parse),
+            'default': config('DATABASE_URL', cast=dj_database_url.parse),
         }
 
         # You can also make a parameter optional by giving it a default.
-        SENTRY_DSN = config.get('SENTRY_DSN', default=None)
+        SENTRY_DSN = config('SENTRY_DSN', default=None)
 
     print(f"Here, you can use values like {SITE_NAME}!")
 

@@ -6,6 +6,7 @@ Config
 
 .. autoclass:: walter.config.Config
     :members:
+    :special-members:
 
 Sources
 -------

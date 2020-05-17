@@ -100,7 +100,11 @@ class Config:
         if exc_value is None and self.errors:
             raise ConfigErrors(errors=self.errors)
 
-    def get(self, key, cast=None, default=NO_DEFAULT, help_text=None):
+    def get(*args, **kwargs):
+        """Compatibility alias of :meth:`__call__`."""
+        return self(*args, **kwargs)
+
+    def __call__(self, key, cast=None, default=NO_DEFAULT, help_text=None):
         """Get a configuration parameter.
 
         :param key: The name of the configuration parameter to get.

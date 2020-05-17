@@ -25,13 +25,13 @@ There's two things to take note of here:
 Loading your configuration
 -----
 
-From **inside the indented block**, call the :meth:`~walter.config.Config.get` method on ``config``.
+From **inside the indented block**, call the ``config`` object.
 
 .. code-block:: python
 
     with Config("Acme Inc.", "My Awesome App") as config:
         ...
-        SECRET_KEY = config.get('SECRET_KEY')
+        SECRET_KEY = config('SECRET_KEY')
         ...
 
 You can use the ``cast`` argument to pass a converter function, in cases where you need to parse the string you get back into something different. If the converter function returns an error, it'll be presented to the user in the same manner as missing values.
@@ -42,9 +42,9 @@ You can use the ``cast`` argument to pass a converter function, in cases where y
 
     with Config("Acme Inc.", "My Awesome App") as config:
         ...
-        DEBUG = config.get('DEBUG', cast=bool)
+        DEBUG = config('DEBUG', cast=bool)
         DATABASES = {
-            'default': config.get('DATABASE_URL', cast=dj_database_url.parse),
+            'default': config('DATABASE_URL', cast=dj_database_url.parse),
         }
         ...
 
@@ -58,7 +58,7 @@ If you want to make a parameter optional, supply the ``default`` argument. (If y
 
     with Config("Acme Inc.", "My Awesome App") as config:
         ...
-        SENTRY_DSN = config.get('SENTRY_DSN', default=None)
+        SENTRY_DSN = config('SENTRY_DSN', default=None)
         ...
 
 After the indented block, you can then access the variables you created. If they weren't set correctly, Walter will throw an error when the indented block is finished, so that your code using them doesn't run.
@@ -71,6 +71,8 @@ After the indented block, you can then access the variables you created. If they
     database.connect(DATABASES['default'])
 
 Alternatively, you can have your configuration defined in a ``settings.py``, and just import that. (If you're using Walter with Django, for example, your ``settings.py`` can just consist of the Walter indented block and nothing else.)
+
+For more details about config objects, look at the API documentation for :class:`~walter.config.Config`, particularly the :meth:`~walter.config.Config.__call__` method.
 
 Setting your configuration
 -----
