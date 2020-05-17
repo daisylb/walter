@@ -12,3 +12,20 @@ Setting Up
     - To run tests on all of the Python versions Walter supports, run ``poetry run nox``. Note that you'll need to have all of the versions in question installed and available for Nox to find.
 
 - Documentation is built with Sphinx. You can just run ``cd docs; poetry run make html`` and browse the generated HTML files, but if you install `devd <https://github.com/cortesi/devd>`_ and `modd <https://github.com/cortesi/modd>`_, then run the command ``modd``, you'll get a nice live-reloading view served on localhost port 8000 (or run e.g. ``env PORT=1337 modd`` to serve on a different port).
+
+Publishing a release
+-----
+
+The process for releasing looks something like this:
+
+.. code-block:: sh
+
+    poetry version minor
+    nox -s release_test
+    poetry publish
+    git add .
+    git commit -m "Release 1.1"
+    git tag v1.1
+    git push origin master v1.1
+
+Then `draft a new release <https://github.com/excitedleigh/walter/releases/new>`_ to trigger the documentation build.
