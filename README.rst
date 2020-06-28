@@ -21,7 +21,7 @@ Here's an example of a Python file that uses Walter to define its configuration.
 
 ::
 
-    from walter.config import Config
+    from walter import Config
 
     with Config(author="Acme Inc.", name="My Awesome App") as config:
 

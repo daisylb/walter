@@ -51,6 +51,11 @@ def _special_case_bool_cast(value: str):
 class Config:
     """Creates a config object.
 
+    .. note::
+
+        This is re-exported at the top level, so that you can type
+        ``from walter import Config``.
+
     :param author: Name of the person or company that created this
         program. Used on Windows to set the default search path.
     :type author: str
